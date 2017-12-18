@@ -12,20 +12,14 @@ import com.tigertian.bluetoothprinter.bluetooth.BtUtil;
 import java.util.Set;
 
 
+/**
+ * @author tianlu
+ */
 public class BindHelper {
 
-    private static final String FILENAME = "bt";
-    private static final String DEFAULT_BLUETOOTH_DEVICE_ADDRESS = "default_bluetooth_device_address";
-    private static final String DEFAULT_BLUETOOTH_DEVICE_NAME = "default_bluetooth_device_name";
-
-    public static final String ACTION_PRINT_TEST = "action_print_test";
-    public static final String ACTION_PRINT_TEST_TWO = "action_print_test_two";
-    public static final String ACTION_PRINT = "action_print";
-    public static final String ACTION_PRINT_TICKET = "action_print_ticket";
-    public static final String ACTION_PRINT_BITMAP = "action_print_bitmap";
-    public static final String ACTION_PRINT_PAINTING = "action_print_painting";
-
-    public static final String PRINT_EXTRA = "print_extra";
+    private static final String FILENAME = "BT_CONFIG";
+    private static final String DEFAULT_BLUETOOTH_DEVICE_ADDRESS = "DEFAULT_BLUETOOTH_DEVICE_ADDRESS";
+    private static final String DEFAULT_BLUETOOTH_DEVICE_NAME = "DEFAULT_BLUETOOTH_DEVICE_NAME";
 
     public static void setDefaultBluetoothDeviceAddress(Context mContext, String value) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);

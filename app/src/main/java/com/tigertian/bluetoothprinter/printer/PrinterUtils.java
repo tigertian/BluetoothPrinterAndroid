@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *   Created by liuguirong on 8/1/17.
- * ESC-POS指令集
+ * ESC-POS commands
+ * @author tianlu
  */
-@SuppressWarnings("all")
 public class PrinterUtils {
 
     private static String hexStr = "0123456789ABCDEF";
@@ -19,25 +18,65 @@ public class PrinterUtils {
             "0100", "0101", "0110", "0111", "1000", "1001", "1010", "1011",
             "1100", "1101", "1110", "1111"};
 
-    public static final byte ESC = 27;//换码
-    public static final byte FS = 28;//文本分隔符
-    public static final byte GS = 29;//组分隔符
-    @SuppressWarnings("unused")
-    public static final byte DLE = 16;//数据连接换码
-    @SuppressWarnings("unused")
-    public static final byte EOT = 4;//传输结束
-    @SuppressWarnings("unused")
-    public static final byte ENQ = 5;//询问字符
-    @SuppressWarnings("unused")
-    public static final byte SP = 32;//空格
-    public static final byte HT = 9;//横向列表
-    public static final byte LF = 10;//打印并换行（水平定位）
-    @SuppressWarnings("unused")
-    public static final byte CR = 13;//归位键
-    @SuppressWarnings("unused")
-    public static final byte FF = 12;//走纸控制（打印并回到标准模式（在页模式下） ）
-    @SuppressWarnings("unused")
-    public static final byte CAN = 24;//作废（页模式下取消打印数据 ）
+    /**
+     * 换码
+     */
+    public static final byte ESC = 27;
+
+    /**
+     * 文本分隔符
+     */
+    public static final byte FS = 28;
+
+    /**
+     * 组分隔符
+     */
+    public static final byte GS = 29;
+
+    /**
+     * 数据连接换码
+     */
+    public static final byte DLE = 16;
+
+    /**
+     * 传输结束
+     */
+    public static final byte EOT = 4;
+
+    /**
+     * 询问字符
+     */
+    public static final byte ENQ = 5;
+
+    /**
+     * 空格
+     */
+    public static final byte SP = 32;
+
+    /**
+     * 横向列表
+     */
+    public static final byte HT = 9;
+
+    /**
+     * 打印并换行（水平定位）
+     */
+    public static final byte LF = 10;
+
+    /**
+     * 归位键
+     */
+    public static final byte CR = 13;
+
+    /**
+     * 走纸控制（打印并回到标准模式（在页模式下） ）
+     */
+    public static final byte FF = 12;
+
+    /**
+     * //作废（页模式下取消打印数据 ）
+     */
+    public static final byte CAN = 24;
 
     /**
      * CodePage table
@@ -74,8 +113,7 @@ public class PrinterUtils {
     }
 
     /**
-     * 初始化打印机
-     * Clears the data in the print buffer and resets the printer modes to the modes that were
+     * Clear the data in the PRINT buffer and resets the printer modes to the modes that were
      * in effect when the power was turned on.
      * ESC @
      *
@@ -90,7 +128,7 @@ public class PrinterUtils {
     }
 
     /**
-     * 打印并换行
+     * LineFeed
      * LF
      *
      * @return bytes for this command
@@ -103,14 +141,13 @@ public class PrinterUtils {
     }
 
     /**
-     * 下划线
+     * Underline
      * ESC - n/FS - n
      *
-     * @param cn  是否为中文
-     * @param dot 线宽 （0表示关闭）
+     * @param cn  isChinese
+     * @param dot linewidth （0 for closed）
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] underLine(boolean cn, int dot) {
         byte[] result = new byte[3];
         result[0] = cn ? FS : ESC;
@@ -131,7 +168,7 @@ public class PrinterUtils {
     }
 
     /**
-     * 开启着重强调(加粗)
+     * Set bold on
      * ESC E n
      *
      * @return bytes for this command
@@ -146,12 +183,11 @@ public class PrinterUtils {
     }
 
     /**
-     * 关闭着重强调(加粗)
+     * set bold off
      * ESC E n
      *
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] emphasizedOff() {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -160,8 +196,6 @@ public class PrinterUtils {
         return result;
     }
 
-
-    @SuppressWarnings("unused")
     public static byte[] overlappingOn() {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -170,7 +204,6 @@ public class PrinterUtils {
         return result;
     }
 
-    @SuppressWarnings("unused")
     public static byte[] overlappingOff() {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -180,7 +213,7 @@ public class PrinterUtils {
     }
 
     /**
-     * 开启 double-strike 模式
+     * double-strike mode on
      * ESC G n
      *
      * @return bytes for this command
@@ -195,12 +228,11 @@ public class PrinterUtils {
     }
 
     /**
-     * 关闭 double-strike 模式
+     * double-strike mode off
      * ESC G n
      *
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] doubleStrikeOff() {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -215,7 +247,6 @@ public class PrinterUtils {
      *
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] selectFontA() {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -230,7 +261,6 @@ public class PrinterUtils {
      *
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] selectFontB() {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -245,7 +275,6 @@ public class PrinterUtils {
      *
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] selectFontC() {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -260,7 +289,6 @@ public class PrinterUtils {
      *
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] selectCNFontA() {
         byte[] result = new byte[3];
         result[0] = FS;
@@ -275,7 +303,6 @@ public class PrinterUtils {
      *
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] selectCNFontB() {
         byte[] result = new byte[3];
         result[0] = FS;
@@ -285,10 +312,10 @@ public class PrinterUtils {
     }
 
     /**
-     * 关闭双倍字高
+     * Double height width mode off
      * ESC ! n
      *
-     * @return bytes for this command
+     * @return bytes this command
      */
     @SuppressWarnings("unused")
     public static byte[] doubleHeightWidthOff() {
@@ -300,7 +327,7 @@ public class PrinterUtils {
     }
 
     /**
-     * 双倍字高（仅英文字体有效）
+     * For english characters, double height mode on
      * ESC ! n
      *
      * @return bytes for this command
@@ -315,7 +342,7 @@ public class PrinterUtils {
     }
 
     /**
-     * 双倍字体高宽（仅英文字体有效）
+     * For english characters, double height width mode on
      * ESC ! n
      *
      * @return bytes for this command
@@ -331,12 +358,11 @@ public class PrinterUtils {
 
 
     /**
-     * 左对齐
+     * Align left
      * ESC a n
      *
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] alignLeft() {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -346,12 +372,11 @@ public class PrinterUtils {
     }
 
     /**
-     * 居中对齐
+     * Align center
      * ESC a n
      *
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] alignCenter() {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -361,12 +386,11 @@ public class PrinterUtils {
     }
 
     /**
-     * 右对齐
+     * Align right
      * ESC a n
      *
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] alignRight() {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -377,14 +401,12 @@ public class PrinterUtils {
 
 
     /**
-     * 打印并走纸n行
-     * Prints the data in the print buffer and feeds n lines
+     * Prints the data in the PRINT buffer and feeds n lines
      * ESC d n
      *
      * @param n lines
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] printAndFeedLines(byte n) {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -394,14 +416,13 @@ public class PrinterUtils {
     }
 
     /**
-     * 打印并反向走纸n行（不一定有效）
-     * Prints the data in the print buffer and feeds n lines in the reserve direction
-     * ESC e n
+     * Prints the data in the PRINT buffer and feeds n lines in the reserve direction
+     * ESC e n.
+     * maybe ineffective
      *
      * @param n lines
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] printAndReverseFeedLines(byte n) {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -410,7 +431,6 @@ public class PrinterUtils {
         return result;
     }
 
-    @SuppressWarnings("unused")
     public static byte[] printHorizontalTab() {
         byte[] result = new byte[5];
         result[0] = ESC;
@@ -421,14 +441,12 @@ public class PrinterUtils {
         return result;
     }
 
-    @SuppressWarnings("unused")
     public static byte[] printHTNext() {
         byte[] result = new byte[1];
         result[0] = HT;
         return result;
     }
 
-    @SuppressWarnings("unused")
     public static byte[] printLineNormalHeight() {
         byte[] result = new byte[2];
         result[0] = ESC;
@@ -436,7 +454,6 @@ public class PrinterUtils {
         return result;
     }
 
-    @SuppressWarnings("unused")
     public static byte[] printLineHeight(byte height) {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -452,7 +469,6 @@ public class PrinterUtils {
      * @param cp example:CodePage.WPC1252
      * @return bytes for this command
      */
-    @SuppressWarnings("unused")
     public static byte[] selectCodeTab(byte cp) {
         byte[] result = new byte[3];
         result[0] = ESC;
@@ -462,7 +478,6 @@ public class PrinterUtils {
     }
 
     /**
-     * 弹开纸箱
      * Drawer kick-out connector pin 2
      * ESC p m t1 t2
      *
@@ -481,7 +496,7 @@ public class PrinterUtils {
 
 
     /**
-     * 选择打印颜色1（不一定有效）
+     * Select the print color. Maybe ineffective
      * ESC r n
      *
      * @return bytes for this command
@@ -496,7 +511,7 @@ public class PrinterUtils {
     }
 
     /**
-     * 选择打印颜色2（不一定有效）
+     * Select the print color. Maybe ineffective
      * ESC r n
      *
      * @return bytes for this command
@@ -512,7 +527,7 @@ public class PrinterUtils {
 
 
     /**
-     * white printing mode on (不一定有效)
+     * White printing mode on
      * Turn white/black reverse printing mode on
      * GS B n
      *
@@ -528,7 +543,7 @@ public class PrinterUtils {
     }
 
     /**
-     * white printing mode off (不一定有效)
+     * White printing mode off
      * Turn white/black reverse printing mode off
      * GS B n
      *
@@ -581,7 +596,7 @@ public class PrinterUtils {
 
     /**
      * select position_hri
-     * Selects the print position of Human Readable Interpretation (HRI) characters when printing a barcode, using n as follows:
+     * Selects the PRINT position of Human Readable Interpretation (HRI) characters when printing a barcode, using n as follows:
      *
      * @param n Print position
      *          0, 48 Not printed
@@ -600,7 +615,7 @@ public class PrinterUtils {
     }
 
     /**
-     * print bar code
+     * PRINT bar code
      *
      * @param barcode_typ   ( Barcode.CODE39, Barcode.EAN8 ,...)
      * @param barcode2print value
@@ -639,9 +654,9 @@ public class PrinterUtils {
     }
 
     /**
-     * 字体变大为标准的n倍
+     * N-times size font
      *
-     * @param num 倍数
+     * @param num n times
      * @return bytes for this command
      */
     @SuppressWarnings("unused")
@@ -681,7 +696,6 @@ public class PrinterUtils {
     }
 
     /**
-     * 进纸切割
      * Feeds paper to ( cutting position + n x vertical motion unit )
      * and executes a full cut ( cuts the paper completely )
      *
@@ -698,9 +712,8 @@ public class PrinterUtils {
     }
 
     /**
-     * 进纸切割（留部分）
      * Feeds paper to ( cutting position + n x vertical motion unit )
-     * and executes a partial cut ( one point left uncut )
+     * and executes a partial cut ( one point LEFT uncut )
      *
      * @return bytes for this command
      */
@@ -715,13 +728,12 @@ public class PrinterUtils {
     }
 
     /**
-     * 解码图片
+     * Decode images
      *
-     * @param image   图片
-     * @param parting 高度分割值
-     * @return 数据流
+     * @param image   bitmap
+     * @param parting height parting
+     * @return data
      */
-    @SuppressWarnings("unused")
     public static ArrayList<byte[]> decodeBitmapToDataList(Bitmap image, int parting) {
         if (parting <= 0 || parting > 255)
             parting = 255;
@@ -733,7 +745,7 @@ public class PrinterUtils {
         if (width <= 0 || height <= 0)
             return null;
         if (width > 2040) {
-            // 8位9针，宽度限制2040像素（但一般纸张都没法打印那么宽，但并不影响打印）
+            // Limit 2040px width
             final float scale = 2040 / (float) width;
             Matrix matrix = new Matrix();
             matrix.postScale(scale, scale);
@@ -748,17 +760,17 @@ public class PrinterUtils {
             return data;
         }
 
-        // 宽命令
+        // Width command
         String widthHexString = Integer.toHexString(width % 8 == 0 ? width / 8 : (width / 8 + 1));
         if (widthHexString.length() > 2) {
-            // 超过2040像素才会到达这里
+            // over 2040
             return null;
         } else if (widthHexString.length() == 1) {
             widthHexString = "0" + widthHexString;
         }
         widthHexString += "00";
 
-        // 每行字节数(除以8，不足补0)
+        // bytes per line, make up enough using 0
         String zeroStr = "";
         int zeroCount = width % 8;
         if (zeroCount > 0) {
@@ -767,40 +779,34 @@ public class PrinterUtils {
             }
         }
         ArrayList<String> commandList = new ArrayList<>();
-        // 高度每parting像素进行一次分割
-        int time = height % parting == 0 ? height / parting : (height / parting + 1);// 循环打印次数
+        int time = height % parting == 0 ? height / parting : (height / parting + 1);
         for (int t = 0; t < time; t++) {
-            int partHeight = t == time - 1 ? height % parting : parting;// 分段高度
+            int partHeight = t == time - 1 ? height % parting : parting;
 
-            // 高命令
             String heightHexString = Integer.toHexString(partHeight);
             if (heightHexString.length() > 2) {
-                // 超过255像素才会到达这里
+                // over 255
                 return null;
             } else if (heightHexString.length() == 1) {
                 heightHexString = "0" + heightHexString;
             }
             heightHexString += "00";
 
-            // 宽高指令
+            // complete command
             String commandHexString = "1D763000";
             commandList.add(commandHexString + widthHexString + heightHexString);
 
-            ArrayList<String> list = new ArrayList<>(); //binaryString list
+            ArrayList<String> list = new ArrayList<>();
             StringBuilder sb = new StringBuilder();
-            // 像素二值化，非黑即白
+            // Pixel, black or white
             for (int i = 0; i < partHeight; i++) {
                 sb.delete(0, sb.length());
                 for (int j = 0; j < width; j++) {
-                    // 实际在图片中的高度
                     int startHeight = t * parting + i;
-                    //得到当前像素的值
                     int color = image.getPixel(j, startHeight);
                     int red, green, blue;
                     if (image.hasAlpha()) {
-                        //得到alpha通道的值
                         int alpha = Color.alpha(color);
-                        //得到图像的像素RGB的值
                         red = Color.red(color);
                         green = Color.green(color);
                         blue = Color.blue(color);
@@ -810,24 +816,20 @@ public class PrinterUtils {
                         green = 0xFF + (int) Math.ceil((green - 0xFF) * offset);
                         blue = 0xFF + (int) Math.ceil((blue - 0xFF) * offset);
                     } else {
-                        //得到图像的像素RGB的值
                         red = Color.red(color);
                         green = Color.green(color);
                         blue = Color.blue(color);
                     }
-                    // 接近白色改为白色。其余黑色
                     if (red > 160 && green > 160 && blue > 160)
                         sb.append("0");
                     else
                         sb.append("1");
                 }
-                // 每一行结束时，补充剩余的0
                 if (zeroCount > 0) {
                     sb.append(zeroStr);
                 }
                 list.add(sb.toString());
             }
-            // binaryStr每8位调用一次转换方法，再拼合
             ArrayList<String> bmpHexList = new ArrayList<>();
             for (String binaryStr : list) {
                 sb.delete(0, sb.length());
@@ -840,7 +842,6 @@ public class PrinterUtils {
                 bmpHexList.add(sb.toString());
             }
 
-            // 数据指令
             commandList.addAll(bmpHexList);
         }
         ArrayList<byte[]> data = new ArrayList<>();
@@ -851,13 +852,12 @@ public class PrinterUtils {
     }
 
     /**
-     * 解码图片
+     * Decode images
      *
-     * @param image   图片
-     * @param parting 高度分割值
-     * @return 数据流
+     * @param image   bitmap
+     * @param parting height parting
+     * @return data
      */
-    @SuppressWarnings("unused")
     public static byte[] decodeBitmap(Bitmap image, int parting) {
         ArrayList<byte[]> data = decodeBitmapToDataList(image, parting);
         int len = 0;
@@ -874,23 +874,15 @@ public class PrinterUtils {
     }
 
     /**
-     * 解码图片
+     * Decode images
      *
-     * @param image 图片
-     * @return 数据流
+     * @param image   bitmap
+     * @return data
      */
-    @SuppressWarnings("unused")
     public static byte[] decodeBitmap(Bitmap image) {
         return decodeBitmap(image, PrinterWriter.HEIGHT_PARTING_DEFAULT);
     }
 
-    /**
-     * 合并byte数组
-     *
-     * @param byteArray byte数组
-     * @return 一个byte数组
-     */
-    @SuppressWarnings("unused")
     public static byte[] mergerByteArray(byte[]... byteArray) {
 
         int length = 0;
@@ -908,14 +900,6 @@ public class PrinterUtils {
         return result;
     }
 
-
-    /**
-     * 2进制转成16进制
-     *
-     * @param binaryStr 2进制串
-     * @return 16进制串
-     */
-    @SuppressWarnings("unused")
     public static String binaryStrToHexString(String binaryStr) {
         String hex = "";
         String f4 = binaryStr.substring(0, 4);
@@ -931,13 +915,6 @@ public class PrinterUtils {
         return hex;
     }
 
-    /**
-     * 16进制指令list转换为byte[]指令
-     *
-     * @param list 指令集
-     * @return byte[]指令
-     */
-    @SuppressWarnings("unused")
     public static byte[] hexListToByte(List<String> list) {
         ArrayList<byte[]> commandList = new ArrayList<>();
         for (String hexStr : list) {
@@ -956,13 +933,6 @@ public class PrinterUtils {
         return destArray;
     }
 
-    /**
-     * 16进制串转byte数组
-     *
-     * @param hexString 16进制串
-     * @return byte数组
-     */
-    @SuppressWarnings("unused")
     public static byte[] hexStringToBytes(String hexString) {
         if (hexString == null || hexString.equals("")) {
             return null;
@@ -978,12 +948,6 @@ public class PrinterUtils {
         return d;
     }
 
-    /**
-     * 16进制char 转 byte
-     *
-     * @param c char
-     * @return byte
-     */
     private static byte charToByte(char c) {
         return (byte) hexStr.indexOf(c);
     }

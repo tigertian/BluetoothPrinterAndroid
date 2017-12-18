@@ -4,6 +4,7 @@ import java.io.IOException;
 
 /**
  * 58mm paper printer
+ * @author tianlu
  */
 public class PrinterWriter58mm extends PrinterWriter {
 

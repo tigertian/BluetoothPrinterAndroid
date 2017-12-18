@@ -2,6 +2,7 @@ package com.tigertian.bluetoothprinter.bluetooth;
 
 /**
  * Eventbus message type
+ * @author tianlu
  */
 public enum StateType {
     /**

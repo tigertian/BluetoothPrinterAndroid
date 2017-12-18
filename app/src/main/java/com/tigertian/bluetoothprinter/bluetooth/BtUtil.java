@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 
 /**
  * Bluetooth tools
+ * @author tianlu
  */
 public class BtUtil {
 

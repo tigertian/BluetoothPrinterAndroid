@@ -6,6 +6,7 @@ import android.content.Intent;
 
 /**
  * Callback for bluetooth events
+ * @author tianlu
  */
 public interface BtInterface {
     /**

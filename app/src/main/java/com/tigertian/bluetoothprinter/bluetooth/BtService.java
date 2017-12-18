@@ -16,10 +16,11 @@ import de.greenrobot.event.EventBus;
 
 /**
  * Full-featured bluetooth service
+ * @author tianlu
  */
 public class BtService {
 
-    private static final String TAG = "BtService";
+    private static final String TAG = "BtTestService";
 
     /**
      * Unique UUID for this application
@@ -32,7 +33,7 @@ public class BtService {
     /**
      * Name for the SDP record when creating server socket
      */
-    private static final String NAME = "BtService";
+    private static final String NAME = "BtTestService";
 
     private final BluetoothAdapter mAdapter;
     private AcceptThread mAcceptThread;
@@ -132,8 +133,8 @@ public class BtService {
 
         setState(StateType.STATE_CONNECTED);
 
-        // call print queue to print
-        // PrintQueue.getQueue(mContext).print();
+        // call PRINT queue to PRINT
+        // PrintQueue.getQueue(mContext).PRINT();
 
     }
 
@@ -179,7 +180,7 @@ public class BtService {
     }
 
     /**
-     * Write to the ConnectedThread in an unsynchronized manner after sleepTime
+     * Write to the ConnectedThread in an asynchronous manner after sleepTime
      *
      * @param out       The bytes to write
      * @param sleepTime sleep time
@@ -193,7 +194,7 @@ public class BtService {
                 return;
             r = mConnectedThread;
         }
-        // Perform the write unsynchronized
+        // Perform the write asynchronously
         r.write(out, sleepTime);
     }
 
@@ -201,17 +202,13 @@ public class BtService {
      * Indicate that the connection attempt failed and notify the UI Activity.
      */
     private void connectionFailed() {
-//         Send a failure message back to the Activity
         setState(StateType.STATE_FAILED);
         // Start the service over to restart listening mode
         BtService.this.start();
     }
 
     /**
-     * Start the chat service. Specifically start AcceptThread to begin a
-     * session in listening (server) mode. Called by the Activity onResume()
-     * 开始聊天服务。 具体启动AcceptThread开始一个
-      会话在监听（服务器）模式。 由Activity onResume（）调用
+     * Called by the Activity onResume()
      */
     public synchronized void start() {
         Log.d(TAG, "start");

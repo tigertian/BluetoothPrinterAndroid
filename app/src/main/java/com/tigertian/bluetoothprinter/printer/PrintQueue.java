@@ -11,14 +11,15 @@ import com.tigertian.bluetoothprinter.bluetooth.StateType;
 import java.util.ArrayList;
 
 /**
- * This is print queue. You can simple add print bytes to queue. and this class will send those bytes to bluetooth device
+ * This is PRINT queue. You can simple add PRINT bytes to queue. and this class will send those bytes to bluetooth device
+ * @author tianlu
  */
 public class PrintQueue {
 
     private static PrintQueue mInstance;
     private Context mContext;
     /**
-     * print queue
+     * PRINT queue
      */
     private ArrayList<byte[]> mQueue;
     /**
@@ -51,7 +52,7 @@ public class PrintQueue {
     }
 
     /**
-     * add print bytes to queue. and call print
+     * add PRINT bytes to queue. and call PRINT
      *
      * @param bytes bytes
      */
@@ -66,7 +67,7 @@ public class PrintQueue {
     }
 
     /**
-     * add print bytes to queue. and call print
+     * add PRINT bytes to queue. and call PRINT
      *
      */
     public synchronized void add(ArrayList<byte[]> bytesList) {
@@ -80,7 +81,7 @@ public class PrintQueue {
     }
 
     /**
-     * print queue
+     * PRINT queue
      */
     public synchronized void print() {
         try {
@@ -163,7 +164,7 @@ public class PrintQueue {
     }
 
     /**
-     * 将打印命令发送给打印机
+     * Send the commands to printer
      *
      * @param bytes bytes
      */

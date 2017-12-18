@@ -33,7 +33,7 @@ public abstract class PrinterWriter {
     }
 
     /**
-     * initialize and reset
+     * initialize and RESET
      *
      * @throws IOException
      */
@@ -43,7 +43,7 @@ public abstract class PrinterWriter {
     }
 
     /**
-     * get the data that needs to be printed and reset the stream
+     * get the data that needs to be printed and RESET the stream
      *
      * @return
      * @throws IOException 异常
@@ -98,7 +98,7 @@ public abstract class PrinterWriter {
     }
 
     /**
-     * make text bold
+     * make text BOLD
      * @throws IOException
      */
     public void setEmphasizedOn() throws IOException {
@@ -125,7 +125,7 @@ public abstract class PrinterWriter {
     }
 
     /**
-     * write the text to print stream
+     * write the text to PRINT stream
      * @param string
      * @throws IOException
      */
@@ -134,7 +134,7 @@ public abstract class PrinterWriter {
     }
 
     /**
-     * write the text to print stream
+     * write the text to PRINT stream
      * @param string
      * @param charsetName
      * @throws IOException
@@ -146,7 +146,7 @@ public abstract class PrinterWriter {
     }
 
     /**
-     * print the dotted line
+     * PRINT the dotted line
      * @throws IOException
      */
     public void printLine() throws IOException {

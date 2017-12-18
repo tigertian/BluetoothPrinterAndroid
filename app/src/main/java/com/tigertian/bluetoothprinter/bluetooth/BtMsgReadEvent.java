@@ -2,6 +2,7 @@ package com.tigertian.bluetoothprinter.bluetooth;
 
 /**
  * Bluetooth message data
+ * @author tianlu
  */
 public class BtMsgReadEvent {
 
