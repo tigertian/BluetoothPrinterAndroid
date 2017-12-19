@@ -1,4 +1,4 @@
-package com.tigertian.bluetoothprinter.test;
+package com.tigertian.test;
 
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -14,8 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
-import com.tigertian.bluetoothprinter.R;
 import com.tigertian.bluetoothprinter.bluetooth.BtActivity;
 import com.tigertian.bluetoothprinter.bluetooth.BtUtil;
 import com.tigertian.bluetoothprinter.printer.BindHelper;
@@ -56,7 +54,7 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
 
 
     private void init() {
-        if (!BtUtil.isOpen(mBluetoothAdapter)) {
+        if (!BtUtil.isOpened()) {
             mTvTitle.setText("未连接蓝牙打印机");
             mTvSummary.setText("系统蓝牙已关闭,点击开启");
 
@@ -104,15 +102,15 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
 
 
     private void searchDeviceOrOpenBluetooth() {
-        if (BtUtil.isOpen(mBluetoothAdapter)) {
-            BtUtil.searchDevices(mBluetoothAdapter);
+        if (BtUtil.isOpened()) {
+            BtUtil.searchDevices();
         }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        BtUtil.cancelDiscovery(mBluetoothAdapter);
+        BtUtil.cancelDiscovery();
     }
     @Override
     public void btStartDiscovery(Intent intent) {
@@ -178,8 +176,7 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            BtUtil.cancelDiscovery(mBluetoothAdapter);
-
+                            BtUtil.cancelDiscovery();
 
                             if (bluetoothDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
                                 connectBlt(bluetoothDevice);

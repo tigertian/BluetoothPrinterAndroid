@@ -1,8 +1,7 @@
-package com.tigertian.bluetoothprinter.test;
+package com.tigertian.test;
 
 import android.content.Context;
 
-import com.tigertian.bluetoothprinter.R;
 import com.tigertian.bluetoothprinter.printer.PrintDataMaker;
 import com.tigertian.bluetoothprinter.printer.PrinterWriter;
 import com.tigertian.bluetoothprinter.printer.PrinterWriter58mm;
@@ -15,6 +14,9 @@ import java.util.List;
 import java.util.Locale;
 
 
+/**
+ * @author tianlu
+ */
 public class PrintOrderDataMaker implements PrintDataMaker {
 
 

@@ -1,4 +1,4 @@
-package com.tigertian.bluetoothprinter.test;
+package com.tigertian.test;
 
 import android.app.IntentService;
 import android.content.Intent;

@@ -1,7 +1,5 @@
 package com.tigertian.bluetoothprinter.bluetooth;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 
 /**

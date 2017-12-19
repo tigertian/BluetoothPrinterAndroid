@@ -20,7 +20,7 @@ import de.greenrobot.event.EventBus;
  */
 public class BtService {
 
-    private static final String TAG = "BtTestService";
+    private static final String TAG = "BtService";
 
     /**
      * Unique UUID for this application
@@ -33,7 +33,7 @@ public class BtService {
     /**
      * Name for the SDP record when creating server socket
      */
-    private static final String NAME = "BtTestService";
+    private static final String NAME = "BtService";
 
     private final BluetoothAdapter mAdapter;
     private AcceptThread mAcceptThread;

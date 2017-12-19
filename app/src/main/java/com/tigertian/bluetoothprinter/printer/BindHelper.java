@@ -42,7 +42,7 @@ public class BindHelper {
      * @return
      */
     public static boolean isBondPrinter(Context mContext, BluetoothAdapter bluetoothAdapter) {
-        if (!BtUtil.isOpen(bluetoothAdapter)) {
+        if (!BtUtil.isOpened()) {
             return false;
         }
         String defaultBluetoothDeviceAddress = getDefaultBluethoothDeviceAddress(mContext);

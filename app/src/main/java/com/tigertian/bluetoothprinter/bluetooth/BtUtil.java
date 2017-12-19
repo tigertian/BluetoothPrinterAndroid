@@ -1,10 +1,13 @@
 package com.tigertian.bluetoothprinter.bluetooth;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Bluetooth tools
@@ -13,46 +16,117 @@ import android.content.IntentFilter;
 public class BtUtil {
 
     /**
-     * Check if the bluetooth switch is opened
-     * @param adapter
+     * bluetooth broadcast receiver
+     */
+    private static BroadcastReceiver mBtReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent == null ) {
+                return;
+            }
+            EventBus.getDefault().post(new BtEvent(intent));
+        }
+    };
+
+    /**
+     * Whether the phone has bt module
      * @return
      */
-    public static boolean isOpen(BluetoothAdapter adapter) {
-        if (null != adapter) {
-            return adapter.isEnabled();
-        }
-        return false;
+    public static boolean hasBtModule(){
+        return BluetoothAdapter.getDefaultAdapter() != null;
     }
 
     /**
-     * Scan the bluetooth devices
-     * @param adapter
+     * enable the bluetooth
+     * @return
      */
-    public static void searchDevices(BluetoothAdapter adapter) {
-        // 寻找蓝牙设备，android会将查找到的设备以广播形式发出去
-        if (null != adapter) {
-            adapter.startDiscovery();
-        }
+    public static boolean enable(){
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if(adapter == null)
+            return false;
+        return adapter.enable();
     }
 
     /**
-     * Cancel the scan
-     * @param adapter
+     * disable the bluetooth
+     * @return
      */
-    public static void cancelDiscovery(BluetoothAdapter adapter) {
-        if (null != adapter) {
-            adapter.cancelDiscovery();
-        }
+    public static boolean disable(){
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if(adapter == null)
+            return false;
+        return adapter.disable();
     }
+
+    /**
+     * check if the bluetooth switch is opened
+     * @return
+     */
+    public static boolean isOpened() {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if(adapter == null)
+            return false;
+        return adapter.isEnabled();
+    }
+
+    /**
+     * check if the bluetooth switch is closed, omit the intermediate state
+     * @return
+     */
+    public static boolean isClosed() {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if(adapter == null)
+            return false;
+        return !adapter.isEnabled() && adapter.getState() == BluetoothAdapter.STATE_OFF;
+    }
+
+    /**
+     * scan the bluetooth devices
+     */
+    public static void searchDevices() {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if(adapter == null)
+            return;
+        adapter.startDiscovery();
+
+    }
+
+    /**
+     * cancel the scan
+     */
+    public static void cancelDiscovery() {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if(adapter == null)
+            return;
+        adapter.cancelDiscovery();
+
+    }
+
+    /**
+     * Register the global receiver, using EventBus with BtEvent
+     * @param context
+     */
+    public static void registerGlobalBluetoothReceiver(Context context){
+        registerBluetoothReceiver(mBtReceiver, context);
+    }
+
+    /**
+     * Unregister the global receiver
+     * @param context
+     */
+    public static void unregisterGlobalBluetoothReceiver(Context context){
+        unregisterBluetoothReceiver(mBtReceiver, context);
+    }
+
 
     /**
      * register bluetooth receiver
      *
      * @param receiver bluetooth broadcast receiver
-     * @param activity activity
+     * @param context context
      */
-    public static void registerBluetoothReceiver(BroadcastReceiver receiver, Activity activity) {
-        if (null == receiver || null == activity) {
+    public static void registerBluetoothReceiver(BroadcastReceiver receiver, Context context) {
+        if (receiver == null || context == null) {
             return;
         }
         IntentFilter intentFilter = new IntentFilter();
@@ -68,20 +142,20 @@ public class BtUtil {
         intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         //pairing device
         intentFilter.addAction(BluetoothDevice.ACTION_PAIRING_REQUEST);
-        activity.registerReceiver(receiver, intentFilter);
+        context.registerReceiver(receiver, intentFilter);
     }
 
     /**
      * unregister bluetooth receiver
      *
      * @param receiver bluetooth broadcast receiver
-     * @param activity activity
+     * @param context context
      */
-    public static void unregisterBluetoothReceiver(BroadcastReceiver receiver, Activity activity) {
-        if (null == receiver || null == activity) {
+    public static void unregisterBluetoothReceiver(BroadcastReceiver receiver, Context context) {
+        if (null == receiver || null == context) {
             return;
         }
-        activity.unregisterReceiver(receiver);
+        context.unregisterReceiver(receiver);
     }
 
 }

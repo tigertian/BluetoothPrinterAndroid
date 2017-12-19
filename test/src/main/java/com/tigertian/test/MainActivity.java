@@ -1,6 +1,5 @@
-package com.tigertian.bluetoothprinter;
+package com.tigertian.test;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,12 +8,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tigertian.bluetoothprinter.bluetooth.BtActivity;
+import com.tigertian.bluetoothprinter.bluetooth.BtUtil;
 import com.tigertian.bluetoothprinter.bluetooth.StateEvent;
 import com.tigertian.bluetoothprinter.printer.BindHelper;
-import com.tigertian.bluetoothprinter.test.BluetoothController;
-import com.tigertian.bluetoothprinter.test.BtTestService;
-import com.tigertian.bluetoothprinter.test.SearchBluetoothActivity;
-import com.tigertian.bluetoothprinter.test.ToastUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -26,7 +22,6 @@ public class MainActivity extends BtActivity implements View.OnClickListener {
     /**
      * bluetooth adapter
      */
-    public BluetoothAdapter mAdapter;
     String mBtAddress;
     String mBtName;
 
@@ -68,8 +63,8 @@ public class MainActivity extends BtActivity implements View.OnClickListener {
                 startActivity(new Intent(MainActivity.this, SearchBluetoothActivity.class));
             } else {
                 //If the bt is off, enable it
-                if (mAdapter.getState() == BluetoothAdapter.STATE_OFF) {
-                    mAdapter.enable();
+                if (BtUtil.isClosed()) {
+                    BtUtil.enable();
                     ToastUtil.showToast(MainActivity.this, "Please enable the bt switch");
                 } else {
                     ToastUtil.showToast(MainActivity.this, "Printing...");

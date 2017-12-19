@@ -1,4 +1,4 @@
-package com.tigertian.bluetoothprinter.test;
+package com.tigertian.test;
 
 import android.content.Context;
 import android.text.TextUtils;

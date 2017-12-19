@@ -1,4 +1,4 @@
-package com.tigertian.bluetoothprinter.test;
+package com.tigertian.test;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.tigertian.bluetoothprinter.R;
 import com.tigertian.bluetoothprinter.printer.BindHelper;
 
 import java.util.ArrayList;
