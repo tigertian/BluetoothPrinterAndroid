@@ -1,7 +1,8 @@
 package com.tigertian.bluetoothprinter.bluetooth;
 
 /**
- * Eventbus message event
+ * Just the bt state message, no content.
+ *
  * @author tianlu
  */
 public class StateEvent {

@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * ESC-POS commands
+ *
  * @author tianlu
  */
 public class PrinterUtils {
@@ -876,7 +877,7 @@ public class PrinterUtils {
     /**
      * Decode images
      *
-     * @param image   bitmap
+     * @param image bitmap
      * @return data
      */
     public static byte[] decodeBitmap(Bitmap image) {

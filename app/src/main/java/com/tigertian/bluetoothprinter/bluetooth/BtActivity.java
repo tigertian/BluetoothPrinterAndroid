@@ -10,6 +10,7 @@ import android.text.TextUtils;
 
 /**
  * Base activity for bluetooth use
+ *
  * @author tianlu
  */
 public class BtActivity extends Activity implements BtInterface {

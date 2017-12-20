@@ -1,17 +1,18 @@
 package com.tigertian.bluetoothprinter.printer;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.tigertian.bluetoothprinter.bluetooth.BtService;
+import com.tigertian.bluetoothprinter.bluetooth.BtUtil;
 import com.tigertian.bluetoothprinter.bluetooth.StateType;
 
 import java.util.ArrayList;
 
 /**
  * This is PRINT queue. You can simple add PRINT bytes to queue. and this class will send those bytes to bluetooth device
+ *
  * @author tianlu
  */
 public class PrintQueue {
@@ -23,23 +24,16 @@ public class PrintQueue {
      */
     private ArrayList<byte[]> mQueue;
     /**
-     * bluetooth adapter
-     */
-    private BluetoothAdapter mAdapter;
-    /**
      * bluetooth service
      */
     private BtService mBtService;
 
     private String mBtAddress;
-    private String mBtName;
-
 
     private PrintQueue(Context context) {
         if (null == mContext) {
             mContext = context;
-            mBtAddress = BindHelper.getDefaultBluethoothDeviceAddress(mContext);
-            mBtName = BindHelper.getDefaultBluetoothDeviceName(mContext);
+            mBtAddress = BondHelper.getDefaultBluethoothDeviceAddress(mContext);
         }
     }
 
@@ -68,7 +62,6 @@ public class PrintQueue {
 
     /**
      * add PRINT bytes to queue. and call PRINT
-     *
      */
     public synchronized void add(ArrayList<byte[]> bytesList) {
         if (null == mQueue) {
@@ -88,15 +81,14 @@ public class PrintQueue {
             if (null == mQueue || mQueue.size() <= 0) {
                 return;
             }
-            if (null == mAdapter) {
-                mAdapter = BluetoothAdapter.getDefaultAdapter();
-            }
+            if (!BtUtil.supportBt())
+                return;
             if (null == mBtService) {
                 mBtService = new BtService(mContext);
             }
             if (mBtService.getState() != StateType.STATE_CONNECTED) {
                 if (!TextUtils.isEmpty(mBtAddress)) {
-                    BluetoothDevice device = mAdapter.getRemoteDevice(mBtAddress);
+                    BluetoothDevice device = BtUtil.getRemoteDevice(mBtAddress);
                     mBtService.connect(device);
                     return;
                 }
@@ -120,9 +112,6 @@ public class PrintQueue {
                 mBtService.stop();
                 mBtService = null;
             }
-            if (null != mAdapter) {
-                mAdapter = null;
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -137,18 +126,14 @@ public class PrintQueue {
             if (TextUtils.isEmpty(mBtAddress)) {
                 return;
             }
-            if (null == mAdapter) {
-                mAdapter = BluetoothAdapter.getDefaultAdapter();
-            }
-            if (null == mAdapter) {
+            if (!BtUtil.supportBt())
                 return;
-            }
             if (null == mBtService) {
                 mBtService = new BtService(mContext);
             }
             if (mBtService.getState() != StateType.STATE_CONNECTED) {
                 if (!TextUtils.isEmpty(mBtAddress)) {
-                    BluetoothDevice device = mAdapter.getRemoteDevice(mBtAddress);
+                    BluetoothDevice device = BtUtil.getRemoteDevice(mBtAddress);
                     mBtService.connect(device);
                     return;
                 }
@@ -173,15 +158,14 @@ public class PrintQueue {
             if (null == bytes || bytes.length <= 0) {
                 return;
             }
-            if (null == mAdapter) {
-                mAdapter = BluetoothAdapter.getDefaultAdapter();
-            }
+            if (!BtUtil.supportBt())
+                return;
             if (null == mBtService) {
                 mBtService = new BtService(mContext);
             }
             if (mBtService.getState() != StateType.STATE_CONNECTED) {
                 if (!TextUtils.isEmpty(mBtAddress)) {
-                    BluetoothDevice device = mAdapter.getRemoteDevice(mBtAddress);
+                    BluetoothDevice device = BtUtil.getRemoteDevice(mBtAddress);
                     mBtService.connect(device);
                     return;
                 }

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.tigertian.bluetoothprinter.printer.BindHelper;
+import com.tigertian.bluetoothprinter.printer.BondHelper;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class SearchBleAdapter extends BaseAdapter {
     public SearchBleAdapter(Context mContext, ArrayList<BluetoothDevice> mDevices) {
         this.mInflater = LayoutInflater.from(mContext);
         this.mDevices = null == mDevices ? new ArrayList<BluetoothDevice>() : mDevices;
-        mConnectedDeviceAddress = BindHelper.getDefaultBluethoothDeviceAddress(mContext);
+        mConnectedDeviceAddress = BondHelper.getDefaultBluethoothDeviceAddress(mContext);
         DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
         mDensity = metrics.density;
     }

@@ -1,11 +1,12 @@
 package com.tigertian.bluetoothprinter.bluetooth;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.util.Log;
+
+import com.tigertian.bluetoothprinter.printer.PrintQueue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,7 @@ import de.greenrobot.event.EventBus;
 
 /**
  * Full-featured bluetooth service
+ *
  * @author tianlu
  */
 public class BtService {
@@ -35,7 +37,6 @@ public class BtService {
      */
     private static final String NAME = "BtService";
 
-    private final BluetoothAdapter mAdapter;
     private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
@@ -46,7 +47,6 @@ public class BtService {
      * Constructor. Prepares a new BluetoothChat session.
      */
     public BtService(Context context) {
-        mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = StateType.STATE_NONE;
         this.mContext = context;
     }
@@ -134,7 +134,7 @@ public class BtService {
         setState(StateType.STATE_CONNECTED);
 
         // call PRINT queue to PRINT
-        // PrintQueue.getQueue(mContext).PRINT();
+        PrintQueue.getQueue(mContext).print();
 
     }
 
@@ -249,7 +249,9 @@ public class BtService {
      * until cancelled).
      */
     private class AcceptThread extends Thread {
-        // The local server socket
+        /**
+         * The local server socket
+         */
         private final BluetoothServerSocket mmServerSocket;
         private String mSocketType;
 
@@ -258,8 +260,7 @@ public class BtService {
 
             // Create a new listening server socket
             try {
-                tmp = mAdapter
-                        .listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
+                tmp = BtUtil.startListen(NAME, MY_UUID);
             } catch (Exception e) {
                 Log.e(TAG, "Socket Type: " + mSocketType + "listen() failed", e);
             }
@@ -306,6 +307,8 @@ public class BtService {
                                     } catch (IOException e) {
                                         Log.e(TAG, "Could not close unwanted socket", e);
                                     }
+                                    break;
+                                default:
                                     break;
                             }
                         }
@@ -360,7 +363,7 @@ public class BtService {
                 setName("ConnectThread" + mSocketType);
 
                 // Always cancel discovery because it will slow down a connection
-                mAdapter.cancelDiscovery();
+                BtUtil.cancelDiscovery();
 
                 // Make a connection to the BluetoothSocket
                 try {

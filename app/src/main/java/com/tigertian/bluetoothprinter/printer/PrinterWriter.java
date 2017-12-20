@@ -99,6 +99,7 @@ public abstract class PrinterWriter {
 
     /**
      * make text BOLD
+     *
      * @throws IOException
      */
     public void setEmphasizedOn() throws IOException {
@@ -116,6 +117,7 @@ public abstract class PrinterWriter {
 
     /**
      * Set the line height between 0 and 255
+     *
      * @param height
      * @throws IOException
      */
@@ -126,6 +128,7 @@ public abstract class PrinterWriter {
 
     /**
      * write the text to PRINT stream
+     *
      * @param string
      * @throws IOException
      */
@@ -135,6 +138,7 @@ public abstract class PrinterWriter {
 
     /**
      * write the text to PRINT stream
+     *
      * @param string
      * @param charsetName
      * @throws IOException
@@ -147,6 +151,7 @@ public abstract class PrinterWriter {
 
     /**
      * PRINT the dotted line
+     *
      * @throws IOException
      */
     public void printLine() throws IOException {
@@ -161,12 +166,14 @@ public abstract class PrinterWriter {
 
     /**
      * the line width
+     *
      * @return
      */
     protected abstract int getLineWidth();
 
     /**
      * the width of line of strings
+     *
      * @param textSize
      * @return
      */
@@ -350,6 +357,7 @@ public abstract class PrinterWriter {
 
     /**
      * set the height parting of image. The max is 255 px
+     *
      * @param parting
      */
     public void setHeightParting(int parting) {

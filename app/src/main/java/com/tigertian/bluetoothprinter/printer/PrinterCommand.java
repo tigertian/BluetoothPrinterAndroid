@@ -2,6 +2,7 @@ package com.tigertian.bluetoothprinter.printer;
 
 /**
  * Printer commands
+ *
  * @author tianlu
  */
 public class PrinterCommand {

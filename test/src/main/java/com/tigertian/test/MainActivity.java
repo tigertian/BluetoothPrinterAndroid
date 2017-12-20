@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.tigertian.bluetoothprinter.bluetooth.BtActivity;
 import com.tigertian.bluetoothprinter.bluetooth.BtUtil;
 import com.tigertian.bluetoothprinter.bluetooth.StateEvent;
-import com.tigertian.bluetoothprinter.printer.BindHelper;
+import com.tigertian.bluetoothprinter.printer.BondHelper;
 
 import de.greenrobot.event.EventBus;
 
@@ -57,7 +57,7 @@ public class MainActivity extends BtActivity implements View.OnClickListener {
         if (view.getId() == R.id.buttonSearch){
             startActivity(new Intent(MainActivity.this, SearchBluetoothActivity.class));
         } else if (view.getId() == R.id.buttonPrint) {
-            mBtAddress = BindHelper.getDefaultBluethoothDeviceAddress(this);
+            mBtAddress = BondHelper.getDefaultBluethoothDeviceAddress(this);
             if (TextUtils.isEmpty(mBtAddress)) {
                 ToastUtil.showToast(MainActivity.this, "Please connect to the bt printer");
                 startActivity(new Intent(MainActivity.this, SearchBluetoothActivity.class));

@@ -3,7 +3,13 @@ package com.tigertian.bluetoothprinter.bluetooth;
 import android.content.Intent;
 
 /**
- * Created by tianlu on 2017/12/19.
+ * The raw bt event message, it includes the events with bundle content, like below:
+ * BluetoothAdapter.ACTION_DISCOVERY_STARTED
+ * BluetoothAdapter.ACTION_DISCOVERY_FINISHED
+ * BluetoothAdapter.ACTION_STATE_CHANGED
+ * BluetoothDevice.ACTION_FOUND
+ * BluetoothDevice.ACTION_BOND_STATE_CHANGED
+ * BluetoothDevice.ACTION_PAIRING_REQUEST
  */
 public class BtEvent {
     /**
@@ -21,7 +27,7 @@ public class BtEvent {
      */
     public Intent intent;
 
-    public BtEvent(Intent in){
+    public BtEvent(Intent in) {
         action = intent.getAction();
         intent = in;
     }

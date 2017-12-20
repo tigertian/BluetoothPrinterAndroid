@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * @author tianlu
  */
-public class BindHelper {
+public class BondHelper {
 
     private static final String FILENAME = "BT_CONFIG";
     private static final String DEFAULT_BLUETOOTH_DEVICE_ADDRESS = "DEFAULT_BLUETOOTH_DEVICE_ADDRESS";
@@ -37,11 +37,11 @@ public class BindHelper {
 
     /**
      * Check if bind the printer
+     *
      * @param mContext
-     * @param bluetoothAdapter
      * @return
      */
-    public static boolean isBondPrinter(Context mContext, BluetoothAdapter bluetoothAdapter) {
+    public static boolean isBondPrinter(Context mContext) {
         if (!BtUtil.isOpened()) {
             return false;
         }
@@ -49,7 +49,7 @@ public class BindHelper {
         if (TextUtils.isEmpty(defaultBluetoothDeviceAddress)) {
             return false;
         }
-        Set<BluetoothDevice> deviceSet = bluetoothAdapter.getBondedDevices();
+        Set<BluetoothDevice> deviceSet = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
         if (deviceSet == null || deviceSet.isEmpty()) {
             return false;
         }

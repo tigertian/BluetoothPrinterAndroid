@@ -2,15 +2,20 @@ package com.tigertian.bluetoothprinter.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import java.io.IOException;
+import java.util.UUID;
+
 import de.greenrobot.event.EventBus;
 
 /**
  * Bluetooth tools
+ *
  * @author tianlu
  */
 public class BtUtil {
@@ -21,7 +26,7 @@ public class BtUtil {
     private static BroadcastReceiver mBtReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent == null ) {
+            if (intent == null) {
                 return;
             }
             EventBus.getDefault().post(new BtEvent(intent));
@@ -30,52 +35,57 @@ public class BtUtil {
 
     /**
      * Whether the phone has bt module
+     *
      * @return
      */
-    public static boolean hasBtModule(){
+    public static boolean supportBt() {
         return BluetoothAdapter.getDefaultAdapter() != null;
     }
 
     /**
      * enable the bluetooth
+     *
      * @return
      */
-    public static boolean enable(){
+    public static boolean enable() {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-        if(adapter == null)
+        if (adapter == null)
             return false;
         return adapter.enable();
     }
 
     /**
      * disable the bluetooth
+     *
      * @return
      */
-    public static boolean disable(){
+    public static boolean disable() {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-        if(adapter == null)
+        if (adapter == null)
             return false;
         return adapter.disable();
     }
 
     /**
      * check if the bluetooth switch is opened
+     *
      * @return
      */
     public static boolean isOpened() {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-        if(adapter == null)
+        if (adapter == null)
             return false;
         return adapter.isEnabled();
     }
 
     /**
      * check if the bluetooth switch is closed, omit the intermediate state
+     *
      * @return
      */
     public static boolean isClosed() {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-        if(adapter == null)
+        if (adapter == null)
             return false;
         return !adapter.isEnabled() && adapter.getState() == BluetoothAdapter.STATE_OFF;
     }
@@ -83,38 +93,65 @@ public class BtUtil {
     /**
      * scan the bluetooth devices
      */
-    public static void searchDevices() {
+    public static boolean searchDevices() {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-        if(adapter == null)
-            return;
-        adapter.startDiscovery();
+        if (adapter == null)
+            return false;
+        return adapter.startDiscovery();
 
     }
 
     /**
      * cancel the scan
      */
-    public static void cancelDiscovery() {
+    public static boolean cancelDiscovery() {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-        if(adapter == null)
-            return;
-        adapter.cancelDiscovery();
+        if (adapter == null)
+            return false;
+        return adapter.cancelDiscovery();
+    }
 
+    /**
+     * Start the local server listening
+     *
+     * @param name
+     * @param uuid
+     * @return
+     * @throws IOException
+     */
+    public static BluetoothServerSocket startListen(String name, UUID uuid) throws IOException {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if (adapter == null)
+            return null;
+        return adapter.listenUsingRfcommWithServiceRecord(name, uuid);
+    }
+
+    /**
+     * @param addr
+     * @return
+     */
+    public static BluetoothDevice getRemoteDevice(String addr) {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if (adapter == null)
+            return null;
+        return adapter.getRemoteDevice(addr);
     }
 
     /**
      * Register the global receiver, using EventBus with BtEvent
+     *
      * @param context
      */
-    public static void registerGlobalBluetoothReceiver(Context context){
+    public static void registerGlobalBluetoothReceiver(Context context) {
         registerBluetoothReceiver(mBtReceiver, context);
     }
 
     /**
      * Unregister the global receiver
+     *
      * @param context
      */
-    public static void unregisterGlobalBluetoothReceiver(Context context){
+    public static void unregisterGlobalBluetoothReceiver(Context context) {
         unregisterBluetoothReceiver(mBtReceiver, context);
     }
 
@@ -123,7 +160,7 @@ public class BtUtil {
      * register bluetooth receiver
      *
      * @param receiver bluetooth broadcast receiver
-     * @param context context
+     * @param context  context
      */
     public static void registerBluetoothReceiver(BroadcastReceiver receiver, Context context) {
         if (receiver == null || context == null) {
@@ -149,7 +186,7 @@ public class BtUtil {
      * unregister bluetooth receiver
      *
      * @param receiver bluetooth broadcast receiver
-     * @param context context
+     * @param context  context
      */
     public static void unregisterBluetoothReceiver(BroadcastReceiver receiver, Context context) {
         if (null == receiver || null == context) {

@@ -1,7 +1,6 @@
 package com.tigertian.test;
 
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 
 import com.tigertian.bluetoothprinter.bluetooth.BtActivity;
 import com.tigertian.bluetoothprinter.bluetooth.BtUtil;
-import com.tigertian.bluetoothprinter.printer.BindHelper;
+import com.tigertian.bluetoothprinter.printer.BondHelper;
 import com.tigertian.bluetoothprinter.printer.PrintQueue;
 
 import java.lang.reflect.Method;
@@ -26,7 +25,6 @@ import java.lang.reflect.Method;
  */
 public class SearchBluetoothActivity extends BtActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    private BluetoothAdapter mBluetoothAdapter;
     private ListView mLvSearchblt;
     private TextView mTvTitle;
     private TextView mTvSummary;
@@ -39,8 +37,6 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
         mLvSearchblt = (ListView) findViewById(R.id.lvSearchblt);
         mTvTitle = (TextView) findViewById(R.id.tvTitle);
         mTvSummary = (TextView) findViewById(R.id.tvSummary);
-        //初始化蓝牙适配器
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mSearchBleAdapter = new SearchBleAdapter(SearchBluetoothActivity.this, null);
         mLvSearchblt.setAdapter(mSearchBleAdapter);
         init();
@@ -50,26 +46,21 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
         mTvSummary.setOnClickListener(this);
     }
 
-
-
-
     private void init() {
         if (!BtUtil.isOpened()) {
-            mTvTitle.setText("未连接蓝牙打印机");
-            mTvSummary.setText("系统蓝牙已关闭,点击开启");
+            mTvTitle.setText("no bt printer connected");
+            mTvSummary.setText("Click to switch on");
 
         } else {
-            if (!BindHelper.isBondPrinter(this, mBluetoothAdapter)) {
-                //未绑定蓝牙打印机器
-                mTvTitle.setText("未连接蓝牙打印机");
-                mTvSummary.setText("点击后搜索蓝牙打印机");
+            if (!BondHelper.isBondPrinter(this)) {
+                mTvTitle.setText("no bt printer connected");
+                mTvSummary.setText("Click to search");
 
             } else {
-                //已绑定蓝牙设备
-                mTvTitle.setText(getPrinterName() + "已连接");
-                String blueAddress = BindHelper.getDefaultBluethoothDeviceAddress(this);
+                mTvTitle.setText(getPrinterName() + " connected");
+                String blueAddress = BondHelper.getDefaultBluethoothDeviceAddress(this);
                 if (TextUtils.isEmpty(blueAddress)) {
-                    blueAddress = "点击后搜索蓝牙打印机";
+                    blueAddress = "Click to search";
                 }
                 mTvSummary.setText(blueAddress);
             }
@@ -78,15 +69,15 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
     @Override
     public void btStatusChanged(Intent intent) {
 
-        if ( mBluetoothAdapter.getState()==BluetoothAdapter.STATE_OFF ){
-            mBluetoothAdapter.enable();
+        if (BtUtil.isClosed()){
+            BtUtil.enable();
         }
-        if ( mBluetoothAdapter.getState()==BluetoothAdapter.STATE_ON ){
+        if (BtUtil.isOpened()){
             searchDeviceOrOpenBluetooth();
         }
     }
     private String getPrinterName(){
-        String dName = BindHelper.getDefaultBluetoothDeviceName(this);
+        String dName = BondHelper.getDefaultBluetoothDeviceName(this);
         if (TextUtils.isEmpty(dName)) {
             dName = "Unknown Device";
         }
@@ -127,7 +118,7 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
     public void btFoundDevice(Intent intent) {
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         Log.d("1","!");
-        if (null != mBluetoothAdapter && device != null) {
+        if (BtUtil.supportBt() && device != null) {
             mSearchBleAdapter.addDevices(device);
             String dName = device.getName() == null ? "Unknown Device" : device.getName();
             Log.d("Unknown Device",dName);
@@ -164,8 +155,8 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
             return;
         }
         new AlertDialog.Builder(this)
-                .setTitle("Bind to" + getPrinterName(bluetoothDevice.getName()) + "?")
-                .setMessage("To bind bt")
+                .setTitle("Bond to" + getPrinterName(bluetoothDevice.getName()) + "?")
+                .setMessage("To bond bt")
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -188,9 +179,9 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
                             String name = bluetoothDevice.getName();
                         } catch (Exception e) {
                             e.printStackTrace();
-                            BindHelper.setDefaultBluetoothDeviceAddress(getApplicationContext(), "");
-                            BindHelper.setDefaultBluetoothDeviceName(getApplicationContext(), "");
-                            ToastUtil.showToast(SearchBluetoothActivity.this,"蓝牙绑定失败,请重试");
+                            BondHelper.setDefaultBluetoothDeviceAddress(getApplicationContext(), "");
+                            BondHelper.setDefaultBluetoothDeviceName(getApplicationContext(), "");
+                            ToastUtil.showToast(SearchBluetoothActivity.this,"Bond failed, please try again");
                         }
                     }
                 })
@@ -205,8 +196,8 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
         }
         init();
         mSearchBleAdapter.notifyDataSetChanged();
-        BindHelper.setDefaultBluetoothDeviceAddress(getApplicationContext(), bluetoothDevice.getAddress());
-        BindHelper.setDefaultBluetoothDeviceName(getApplicationContext(), bluetoothDevice.getName());
+        BondHelper.setDefaultBluetoothDeviceAddress(getApplicationContext(), bluetoothDevice.getAddress());
+        BondHelper.setDefaultBluetoothDeviceName(getApplicationContext(), bluetoothDevice.getName());
     }
 
     @Override
