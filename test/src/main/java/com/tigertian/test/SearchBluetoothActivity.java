@@ -118,7 +118,7 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
     public void btFoundDevice(Intent intent) {
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         Log.d("1","!");
-        if (BtUtil.supportBt() && device != null) {
+        if (device != null) {
             mSearchBleAdapter.addDevices(device);
             String dName = device.getName() == null ? "Unknown Device" : device.getName();
             Log.d("Unknown Device",dName);
@@ -176,7 +176,6 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
                                 createBondMethod.invoke(bluetoothDevice);
                             }
                             PrintQueue.getQueue(getApplicationContext()).disconnect();
-                            String name = bluetoothDevice.getName();
                         } catch (Exception e) {
                             e.printStackTrace();
                             BondHelper.setDefaultBluetoothDeviceAddress(getApplicationContext(), "");
