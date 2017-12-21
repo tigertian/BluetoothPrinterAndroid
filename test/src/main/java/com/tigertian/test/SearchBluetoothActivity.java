@@ -94,7 +94,7 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
 
     private void searchDeviceOrOpenBluetooth() {
         if (BtUtil.isOpened()) {
-            BtUtil.searchDevices();
+            BtUtil.startDiscovery();
         }
     }
 

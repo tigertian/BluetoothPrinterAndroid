@@ -75,7 +75,7 @@ public class BtUtil {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         if (adapter == null)
             return false;
-        return adapter.isEnabled();
+        return adapter.isEnabled() || adapter.getState() == BluetoothAdapter.STATE_ON;
     }
 
     /**
@@ -93,7 +93,7 @@ public class BtUtil {
     /**
      * scan the bluetooth devices
      */
-    public static boolean searchDevices() {
+    public static boolean startDiscovery() {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         if (adapter == null)
             return false;
