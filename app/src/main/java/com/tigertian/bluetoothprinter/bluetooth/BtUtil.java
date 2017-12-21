@@ -87,7 +87,7 @@ public class BtUtil {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         if (adapter == null)
             return false;
-        return !adapter.isEnabled() && adapter.getState() == BluetoothAdapter.STATE_OFF;
+        return !adapter.isEnabled() || adapter.getState() == BluetoothAdapter.STATE_OFF;
     }
 
     /**
