@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.tigertian.bluetoothprinter.printer.BondHelper;
-
 import java.util.ArrayList;
 
 

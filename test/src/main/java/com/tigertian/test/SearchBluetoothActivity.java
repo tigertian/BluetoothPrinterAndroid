@@ -15,8 +15,7 @@ import android.widget.TextView;
 
 import com.tigertian.bluetoothprinter.bluetooth.BtActivity;
 import com.tigertian.bluetoothprinter.bluetooth.BtUtil;
-import com.tigertian.bluetoothprinter.printer.BondHelper;
-import com.tigertian.bluetoothprinter.printer.PrintQueue;
+import com.tigertian.bluetoothprinter.printer.BtPrinter;
 
 import java.lang.reflect.Method;
 
@@ -175,7 +174,7 @@ public class SearchBluetoothActivity extends BtActivity implements AdapterView.O
                                 Method createBondMethod = BluetoothDevice.class.getMethod("createBond");
                                 createBondMethod.invoke(bluetoothDevice);
                             }
-                            PrintQueue.getQueue(getApplicationContext()).disconnect();
+                            BtPrinter.getBtPrinter(BondHelper.getDefaultBluethoothDeviceAddress(getApplicationContext())).disconnect();
                         } catch (Exception e) {
                             e.printStackTrace();
                             BondHelper.setDefaultBluetoothDeviceAddress(getApplicationContext(), "");

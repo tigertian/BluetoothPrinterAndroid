@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.tigertian.bluetoothprinter.bluetooth.BtActivity;
 import com.tigertian.bluetoothprinter.bluetooth.BtUtil;
 import com.tigertian.bluetoothprinter.bluetooth.StateEvent;
-import com.tigertian.bluetoothprinter.printer.BondHelper;
 
 import de.greenrobot.event.EventBus;
 

@@ -3,10 +3,7 @@ package com.tigertian.bluetoothprinter.bluetooth;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.util.Log;
-
-import com.tigertian.bluetoothprinter.printer.PrintQueue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,14 +38,12 @@ public class BtService {
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
     private StateType mState;
-    private Context mContext;
 
     /**
      * Constructor. Prepares a new BluetoothChat session.
      */
-    public BtService(Context context) {
+    public BtService() {
         mState = StateType.STATE_NONE;
-        this.mContext = context;
     }
 
     /**
@@ -133,8 +128,9 @@ public class BtService {
 
         setState(StateType.STATE_CONNECTED);
 
+        // It should be invoked outside
         // call PRINT queue to PRINT
-        PrintQueue.getQueue(mContext).print();
+        //BtPrinter.getBtPrinter(mContext).print();
 
     }
 

@@ -3,7 +3,6 @@ package com.tigertian.test;
 import android.text.TextUtils;
 
 import com.tigertian.bluetoothprinter.bluetooth.BtUtil;
-import com.tigertian.bluetoothprinter.printer.BondHelper;
 
 /**
  * @author tianlu

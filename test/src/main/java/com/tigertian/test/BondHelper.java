@@ -1,4 +1,4 @@
-package com.tigertian.bluetoothprinter.printer;
+package com.tigertian.test;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -25,14 +25,14 @@ public class BondHelper {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(DEFAULT_BLUETOOTH_DEVICE_ADDRESS, value);
-        editor.apply();
+        apply(editor);
     }
 
     public static void setDefaultBluetoothDeviceName(Context mContext, String value) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(DEFAULT_BLUETOOTH_DEVICE_NAME, value);
-        editor.apply();
+        apply(editor);
     }
 
     /**

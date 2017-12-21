@@ -3,7 +3,7 @@ package com.tigertian.test;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.tigertian.bluetoothprinter.printer.PrintQueue;
+import com.tigertian.bluetoothprinter.printer.BtPrinter;
 import com.tigertian.bluetoothprinter.printer.PrinterWriter;
 import com.tigertian.bluetoothprinter.printer.PrinterWriter80mm;
 
@@ -41,7 +41,7 @@ public class BtTestService extends IntentService {
     private void printTest() {
         PrintOrderDataMaker printOrderDataMaker = new PrintOrderDataMaker(this, "", PrinterWriter80mm.TYPE_80, PrinterWriter.HEIGHT_PARTING_DEFAULT);
         ArrayList<byte[]> printData = (ArrayList<byte[]>) printOrderDataMaker.getPrintData(PrinterWriter80mm.TYPE_80);
-        PrintQueue.getQueue(getApplicationContext()).add(printData);
+        BtPrinter.getBtPrinter(BondHelper.getDefaultBluethoothDeviceAddress(getApplicationContext())).add(printData);
     }
 
 }
