@@ -28,7 +28,7 @@ public class BtEvent {
     public Intent intent;
 
     public BtEvent(Intent in) {
-        action = intent.getAction();
+        action = in.getAction();
         intent = in;
     }
 }
