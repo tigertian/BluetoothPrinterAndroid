@@ -6,6 +6,6 @@ The source code contains a demo project.
 
 ```groovy
 dependencies {
-    implementation 'com.github.tigertian:bluetoothprinter:0.0.3'
+    implementation 'com.github.tigertian:bluetoothprinter:0.0.9'
 }
 ```
